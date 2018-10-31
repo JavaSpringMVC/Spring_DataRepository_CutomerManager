@@ -1,13 +1,13 @@
 package com.codegym.cms;
 
+import com.codegym.cms.service.ProvinceService;
 import com.codegym.cms.service.impl.CustomerServiceImpl;
+import com.codegym.cms.service.impl.ProvinceServiceImpl;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.codegym.cms.repository.CustomerRepository;
-import com.codegym.cms.repository.impl.CustomerRepositoryImpl;
 import com.codegym.cms.service.CustomerService;
-import com.codegym.cms.service.impl.CustomerServiceImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -37,6 +37,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan("com.codegym.cms")
+@EnableJpaRepositories("com.codegym.cms.repository")
 public class ApplicationConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -47,13 +48,13 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     }
 
     @Bean
-    public CustomerRepository customerRepository(){
-        return new CustomerRepositoryImpl();
+    public CustomerService customerService(){
+        return new CustomerServiceImpl();
     }
 
     @Bean
-    public CustomerService customerService(){
-        return new CustomerServiceImpl();
+    public ProvinceService provinceService(){
+        return new ProvinceServiceImpl();
     }
 
 
