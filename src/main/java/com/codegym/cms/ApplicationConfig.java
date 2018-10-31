@@ -1,10 +1,13 @@
 package com.codegym.cms;
 
+import com.codegym.cms.formatter.ProvinceFormatter;
+import com.codegym.cms.model.Province;
 import com.codegym.cms.service.ProvinceService;
 import com.codegym.cms.service.impl.CustomerServiceImpl;
 import com.codegym.cms.service.impl.ProvinceServiceImpl;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.codegym.cms.service.CustomerService;
@@ -47,6 +50,11 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         this.applicationContext = applicationContext;
     }
 
+    @Override
+    public void addFormatters(FormatterRegistry registry){
+        registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
+    }
+
     @Bean
     public CustomerService customerService(){
         return new CustomerServiceImpl();
@@ -66,6 +74,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         templateResolver.setPrefix("/WEB-INF/views");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
